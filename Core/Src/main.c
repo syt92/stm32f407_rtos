@@ -19,11 +19,13 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "FreeRTOS.h"
+#include "task.h"
 #include "usb_host.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "cmd_shell.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -102,21 +104,25 @@ int main(void)
   MX_I2C1_Init();
   MX_I2S3_Init();
   MX_SPI1_Init();
+  HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
   MX_USART2_UART_Init();
-  MX_USB_HOST_Init();
+//   MX_USB_HOST_Init();
+  
   /* USER CODE BEGIN 2 */
-
+  
+  cmd_init();
+  vTaskStartScheduler();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+//   while (1)
+//   {
     /* USER CODE END WHILE */
     MX_USB_HOST_Process();
 
     /* USER CODE BEGIN 3 */
-  }
+//   }
   /* USER CODE END 3 */
 }
 
@@ -277,6 +283,7 @@ static void MX_SPI1_Init(void)
 
 }
 
+uint8_t uart_receive_buf;
 /**
   * @brief USART2 Initialization Function
   * @param None
@@ -304,8 +311,10 @@ static void MX_USART2_UART_Init(void)
   {
     Error_Handler();
   }
+  huart2.pRxBuffPtr = &uart_receive_buf;
   /* USER CODE BEGIN USART2_Init 2 */
-
+  /* RXNE interrupt enable */
+  __HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);
   /* USER CODE END USART2_Init 2 */
 
 }
