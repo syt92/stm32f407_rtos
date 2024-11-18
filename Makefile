@@ -76,7 +76,10 @@ FreeRTOS/Source/queue.c \
 FreeRTOS/Source/tasks.c \
 FreeRTOS/Source/Portable/ARM_CM4F/port.c \
 FreeRTOS/Source/Portable/MemMang/heap_4.c \
-app/cmd_shell.c
+app/cmd_shell.c \
+Core/Src/do_printf.c \
+Core/Src/do_scanf.c \
+app/util.c
 
 # ASM sources
 ASM_SOURCES =  \

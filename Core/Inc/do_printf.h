@@ -1,0 +1,1 @@
+int simple_printf(char *fmt, ...);

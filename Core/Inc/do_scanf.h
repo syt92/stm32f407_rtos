@@ -1,0 +1,1 @@
+uint8_t simple_sscanf(const char *str, const char *format, ...);
